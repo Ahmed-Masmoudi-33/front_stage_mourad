@@ -1,0 +1,40 @@
+<div class="tools">
+  <h3>
+    MCP tool calls
+    <span class="count" *ngIf="totalCount">{{ totalCount }}</span>
+  </h3>
+  <p class="sub" *ngIf="filterNode">Filtered by node: <strong>{{ nodeLabel(filterNode) }}</strong></p>
+
+  <div class="empty" *ngIf="!totalCount">No MCP tool calls recorded yet.</div>
+
+  <section class="group" *ngFor="let g of groups">
+    <header class="group-head">
+      <span class="node">{{ nodeLabel(g.node) }}</span>
+      <span class="group-count">{{ g.calls.length }} call{{ g.calls.length === 1 ? '' : 's' }}</span>
+    </header>
+
+    <ul class="calls">
+      <li
+        class="call"
+        *ngFor="let c of g.calls"
+        [class.is-error]="c.status === 'error'"
+        [class.is-running]="c.status === 'running'"
+        [class.off-policy]="!c.allowed"
+      >
+        <button type="button" class="call-head" (click)="toggle(c)" [disabled]="!hasDetails(c)">
+          <mat-icon class="status-icon" [class.spin]="c.status === 'running'">{{ statusIcon(c) }}</mat-icon>
+          <span class="tool">{{ c.name }}</span>
+          <span class="server">{{ c.server }}</span>
+          <span class="args" *ngIf="argsPreview(c)">{{ argsPreview(c) }}</span>
+          <span class="spacer"></span>
+          <span class="duration" *ngIf="durationMs(c) !== null">{{ durationMs(c) }} ms</span>
+          <span class="badge warn" *ngIf="!c.allowed" title="Not in this node's allowlist">off-policy</span>
+          <mat-icon class="chevron" *ngIf="hasDetails(c)">
+            {{ isExpanded(c) ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+        </button>
+        <pre class="details" *ngIf="isExpanded(c)">{{ details(c) }}</pre>
+      </li>
+    </ul>
+  </section>
+</div>

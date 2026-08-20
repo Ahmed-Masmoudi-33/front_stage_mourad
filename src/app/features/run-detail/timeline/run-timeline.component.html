@@ -1,0 +1,40 @@
+<div class="timeline">
+  <h3>Agent outputs</h3>
+  <p class="sub" *ngIf="filterAgent">Filtered by node: <strong>{{ filterAgent }}</strong></p>
+
+  <div class="empty" *ngIf="!filteredOutputs.length">No agent outputs yet.</div>
+
+  <article class="output" *ngFor="let o of filteredOutputs.slice().reverse()">
+    <header>
+      <div class="who">
+        <span class="agent">{{ agentLabel(o.agent) }}</span>
+        <time>{{ o.timestamp | date: 'medium' }}</time>
+      </div>
+      <button
+        mat-stroked-button
+        type="button"
+        class="copy-btn"
+        (click)="copyOutput(o)"
+        [attr.aria-label]="'Copy ' + agentLabel(o.agent) + ' output'"
+      >
+        <mat-icon>content_copy</mat-icon>
+        Copy
+      </button>
+    </header>
+
+    <div class="body markdown-body" *ngIf="o.summary?.trim(); else emptySummary">
+      <markdown [data]="o.summary"></markdown>
+    </div>
+    <ng-template #emptySummary>
+      <p class="empty-summary">No summary text.</p>
+    </ng-template>
+  </article>
+
+  <h3 class="events-title">Recent events</h3>
+  <ul class="events">
+    <li *ngFor="let e of recentEvents">
+      <span class="etype">{{ e.type }}</span>
+      <time>{{ e.timestamp | date: 'shortTime' }}</time>
+    </li>
+  </ul>
+</div>

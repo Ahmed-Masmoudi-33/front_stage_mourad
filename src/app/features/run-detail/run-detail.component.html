@@ -1,0 +1,74 @@
+<div class="page" *ngIf="!loading && run">
+  <header class="header">
+    <div class="title-block">
+      <button mat-button type="button" (click)="back()">
+        <mat-icon>arrow_back</mat-icon>
+        Runs
+      </button>
+      <h1>{{ run.jira_key }}</h1>
+      <div class="meta">
+        <app-status-badge [status]="run.status"></app-status-badge>
+        <span *ngIf="run.current_node">· {{ run.current_node }}</span>
+        <span *ngIf="run.retry_count">· retries {{ run.retry_count }}</span>
+        <span>· started {{ run.started_at | date: 'medium' }}</span>
+      </div>
+      <a *ngIf="run.repo_url" class="pr" [href]="run.repo_url" target="_blank" rel="noopener">
+        {{ run.repo_url }} ↗
+      </a>
+      <a *ngIf="run.pr_url" class="pr" [href]="run.pr_url" target="_blank" rel="noopener">
+        Pull request ↗
+      </a>
+      <p class="error" *ngIf="run.error">{{ run.error }}</p>
+    </div>
+    <div class="actions">
+      <button mat-icon-button (click)="refresh()" aria-label="Refresh snapshot">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-stroked-button color="warn" *ngIf="canCancel && !needsApproval" [disabled]="actionBusy" (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+  </header>
+
+  <app-approval-panel
+    [visible]="needsApproval"
+    [jiraKey]="run.jira_key"
+    [riskLevel]="run.risk_level"
+    [plan]="planText"
+    [busy]="actionBusy"
+    (approve)="approve()"
+    (cancel)="cancel()"
+  ></app-approval-panel>
+
+  <section class="graph-section">
+    <div class="section-head">
+      <h2>Workflow</h2>
+      <button mat-button *ngIf="selectedNode" type="button" (click)="clearFilter()">Clear node filter</button>
+    </div>
+    <app-pipeline-graph
+      *ngIf="graph"
+      [nodes]="graph.nodes"
+      [edges]="graph.edges"
+      [nodeStates]="run.node_states"
+      [currentNode]="run.current_node"
+      [selectedNode]="selectedNode"
+      (nodeSelect)="onSelectNode($event)"
+    ></app-pipeline-graph>
+  </section>
+
+  <div class="panels">
+    <app-run-timeline
+      [outputs]="run.agent_outputs"
+      [events]="run.events"
+      [filterAgent]="selectedNode"
+    ></app-run-timeline>
+    <div class="side-panels">
+      <app-mcp-tools [toolCalls]="run.tool_calls" [filterNode]="selectedNode"></app-mcp-tools>
+      <app-run-artifacts [artifacts]="run.artifacts" [focusNode]="selectedNode"></app-run-artifacts>
+    </div>
+  </div>
+</div>
+
+<div class="loading" *ngIf="loading">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>

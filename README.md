@@ -1,27 +1,52 @@
-# FrontStageMourad
+# Jira Pipeline UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+Angular 16 + Material frontend for launching and visualizing the LangGraph Jira→PR agent pipeline in realtime.
 
-## Development server
+Requires Node **18.20.8** and npm **10.8.2** (or compatible).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Setup
 
-## Code scaffolding
+```bash
+cd /home/ahmed/study/front_stage_mourad
+npm install
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Run (with API)
 
-## Build
+1. Start the backend (from `stage mourad`):
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+cd "/home/ahmed/study/stage mourad"
+source .venv/bin/activate
+export PIPELINE_API_MOCK=true   # optional; fake timed runs for UI demo
+uvicorn jira_pipeline.api.app:app --reload --host 127.0.0.1 --port 8000
+```
 
-## Running unit tests
+2. Start this app (proxies `/api` → `http://127.0.0.1:8000`):
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm start
+```
 
-## Running end-to-end tests
+Open http://localhost:4200
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Features
 
-## Further help
+- **Runs list** — history with status filters
+- **Launch pipeline** — start a run by Jira key
+- **Live workflow graph** — node states update over SSE
+- **Timeline & artifacts** — agent outputs, plan, PR link, etc.
+- **Approval gate** — approve or cancel when the pipeline pauses
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm start` | Dev server with API proxy |
+| `npm run build` | Production build |
+| `npm test` | Unit tests |
+
+## Config
+
+- [`proxy.conf.json`](proxy.conf.json) — proxies `/api` to the FastAPI server
+- [`src/environments/environment.ts`](src/environments/environment.ts) — `apiUrl: '/api'`

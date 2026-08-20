@@ -1,0 +1,16 @@
+<aside class="gate" *ngIf="visible">
+  <div class="gate-header">
+    <mat-icon>gavel</mat-icon>
+    <div>
+      <h3>Human approval required</h3>
+      <p>{{ jiraKey }} · risk: {{ riskLevel || 'unknown' }}</p>
+    </div>
+  </div>
+  <pre class="plan">{{ plan || 'No plan text available.' }}</pre>
+  <div class="actions">
+    <button mat-stroked-button color="warn" [disabled]="busy" (click)="cancel.emit()">Cancel run</button>
+    <button mat-flat-button color="primary" [disabled]="busy" (click)="approve.emit()">
+      Approve & continue
+    </button>
+  </div>
+</aside>

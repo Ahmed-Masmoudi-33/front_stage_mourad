@@ -1,0 +1,12 @@
+<div class="artifacts">
+  <h3>Artifacts</h3>
+  <p class="sub" *ngIf="focusNode">Showing fields for <strong>{{ focusNode }}</strong></p>
+  <div class="empty" *ngIf="!entries.length">No artifacts yet.</div>
+  <div class="item" *ngFor="let e of entries">
+    <div class="key">{{ e.key }}</div>
+    <a *ngIf="isUrl(e.key, e.value); else text" [href]="e.value" target="_blank" rel="noopener">{{ e.value }}</a>
+    <ng-template #text>
+      <pre>{{ e.value }}</pre>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.shell {
+  min-height: calc(100vh - 64px);
+  background:
+    radial-gradient(1200px 400px at 10% -10%, #e8f0fe 0%, transparent 60%),
+    radial-gradient(900px 360px at 100% 0%, #e6f4ea 0%, transparent 55%),
+    #f5f6f8;
+}

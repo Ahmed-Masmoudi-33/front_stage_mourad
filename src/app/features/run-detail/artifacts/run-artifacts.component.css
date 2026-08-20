@@ -1,0 +1,48 @@
+.artifacts {
+  background: #fff;
+  border: 1px solid #e0e3e7;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.sub {
+  margin: -0.25rem 0 0.75rem;
+  color: #5f6368;
+  font-size: 0.85rem;
+}
+
+.item {
+  padding: 0.65rem 0;
+  border-top: 1px solid #e8eaed;
+}
+
+.key {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5f6368;
+  margin-bottom: 0.25rem;
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.empty {
+  color: #5f6368;
+}
+
+a {
+  color: #1967d2;
+  word-break: break-all;
+}

@@ -1,0 +1,35 @@
+<div class="graph">
+  <div class="spine">
+    <ng-container *ngFor="let node of mainNodes; let last = last">
+      <button
+        type="button"
+        class="node"
+        [attr.data-status]="statusOf(node.id)"
+        [class.current]="currentNode === node.id"
+        [class.selected]="selectedNode === node.id"
+        (click)="select(node.id)"
+      >
+        <span class="dot"></span>
+        <span class="label">{{ node.label }}</span>
+        <span class="state">{{ statusOf(node.id).replace('_', ' ') }}</span>
+      </button>
+      <div class="connector" *ngIf="!last" aria-hidden="true"></div>
+    </ng-container>
+  </div>
+
+  <div class="side" *ngIf="sideNodes.length">
+    <button
+      type="button"
+      class="node side-node"
+      *ngFor="let node of sideNodes"
+      [attr.data-status]="statusOf(node.id)"
+      [class.current]="currentNode === node.id"
+      [class.selected]="selectedNode === node.id"
+      (click)="select(node.id)"
+    >
+      <span class="dot"></span>
+      <span class="label">{{ node.label }}</span>
+      <span class="state">{{ statusOf(node.id).replace('_', ' ') }}</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="page">
+  <header class="page-header">
+    <div>
+      <h1>Pipeline runs</h1>
+      <p>Launch a Jira ticket through the agent workflow and watch it live.</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="openLaunch()" [disabled]="launching">
+      <mat-icon>play_arrow</mat-icon>
+      Launch pipeline
+    </button>
+  </header>
+
+  <div class="filters">
+    <button
+      mat-stroked-button
+      *ngFor="let f of filters"
+      [class.active]="filter === f"
+      (click)="filter = f"
+    >
+      {{ f === 'all' ? 'All' : f.replace('_', ' ') }}
+    </button>
+    <button mat-icon-button (click)="reload()" aria-label="Refresh">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <mat-spinner diameter="36"></mat-spinner>
+  </div>
+
+  <div class="empty" *ngIf="!loading && filtered.length === 0">
+    No runs yet. Launch a pipeline to get started.
+  </div>
+
+  <table mat-table [dataSource]="filtered" class="runs-table" *ngIf="!loading && filtered.length">
+    <ng-container matColumnDef="jira_key">
+      <th mat-header-cell *matHeaderCellDef>Jira</th>
+      <td mat-cell *matCellDef="let row">{{ row.jira_key }}</td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let row"><app-status-badge [status]="row.status"></app-status-badge></td>
+    </ng-container>
+    <ng-container matColumnDef="current_node">
+      <th mat-header-cell *matHeaderCellDef>Node</th>
+      <td mat-cell *matCellDef="let row">{{ row.current_node || '—' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="started_at">
+      <th mat-header-cell *matHeaderCellDef>Started</th>
+      <td mat-cell *matCellDef="let row">{{ row.started_at | date: 'medium' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="retry_count">
+      <th mat-header-cell *matHeaderCellDef>Retries</th>
+      <td mat-cell *matCellDef="let row">{{ row.retry_count }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['jira_key', 'status', 'current_node', 'started_at', 'retry_count']"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['jira_key', 'status', 'current_node', 'started_at', 'retry_count']"
+      (click)="openRun(row)"
+      class="clickable"
+    ></tr>
+  </table>
+</div>
