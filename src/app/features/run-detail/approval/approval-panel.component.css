@@ -28,6 +28,13 @@
   color: #b06000;
 }
 
+.risk-reasons {
+  margin: 0 0 0.75rem 2.25rem;
+  padding-left: 1rem;
+  color: #7a4700;
+  font-size: 0.85rem;
+}
+
 .plan {
   margin: 0 0 0.85rem;
   max-height: 180px;

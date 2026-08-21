@@ -25,7 +25,7 @@
   font-size: 0.9rem;
 }
 
-.pr {
+.repo-link {
   display: inline-block;
   margin-top: 0.4rem;
   color: #1967d2;
@@ -41,6 +41,35 @@
   display: flex;
   gap: 0.35rem;
   align-items: flex-start;
+}
+
+.local-result {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  margin: 0 0 1rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #b7dfc2;
+  border-radius: 8px;
+  background: #f1f8f3;
+  color: #1e5e2f;
+}
+
+.local-result mat-icon {
+  margin-top: 0.1rem;
+}
+
+.local-result p {
+  margin: 0.2rem 0;
+  color: #243b2b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+.local-result span {
+  color: #4a6652;
+  font-size: 0.82rem;
 }
 
 .section-head {

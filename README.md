@@ -1,6 +1,6 @@
 # Jira Pipeline UI
 
-Angular 16 + Material frontend for launching and visualizing the LangGraph Jira→PR agent pipeline in realtime.
+Angular 16 + Material frontend for the Jira → analysis → plan → approval → local implementation pipeline.
 
 Requires Node **18.20.8** and npm **10.8.2** (or compatible).
 
@@ -13,10 +13,10 @@ npm install
 
 ## Run (with API)
 
-1. Start the backend (from `stage mourad`):
+1. Start the backend (from `stage_mourad`):
 
 ```bash
-cd "/home/ahmed/study/stage mourad"
+cd "/home/ahmed/study/stage_mobelite_jira_project/no_git_usage/stage_mourad"
 source .venv/bin/activate
 export PIPELINE_API_MOCK=true   # optional; fake timed runs for UI demo
 uvicorn jira_pipeline.api.app:app --reload --host 127.0.0.1 --port 8000
@@ -35,7 +35,7 @@ Open http://localhost:4200
 - **Runs list** — history with status filters
 - **Launch pipeline** — start a run by Jira key
 - **Live workflow graph** — node states update over SSE
-- **Timeline & artifacts** — agent outputs, plan, PR link, etc.
+- **Timeline & artifacts** — agent outputs, plan, local workspace, and changed files
 - **Approval gate** — approve or cancel when the pipeline pauses
 
 ## Scripts

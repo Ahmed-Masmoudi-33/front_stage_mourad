@@ -6,6 +6,9 @@
       <p>{{ jiraKey }} · risk: {{ riskLevel || 'unknown' }}</p>
     </div>
   </div>
+  <ul class="risk-reasons" *ngIf="riskReasons.length">
+    <li *ngFor="let reason of riskReasons">{{ reason }}</li>
+  </ul>
   <pre class="plan">{{ plan || 'No plan text available.' }}</pre>
   <div class="actions">
     <button mat-stroked-button color="warn" [disabled]="busy" (click)="cancel.emit()">Cancel run</button>

@@ -32,4 +32,9 @@
       <span class="state">{{ statusOf(node.id).replace('_', ' ') }}</span>
     </button>
   </div>
+
+  <div class="conditional-paths" *ngIf="conditionalPaths.length">
+    <span>Conditional paths:</span>
+    <code *ngFor="let path of conditionalPaths">{{ path }}</code>
+  </div>
 </div>

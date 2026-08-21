@@ -44,7 +44,6 @@ export class RunEventsService {
         'agent_output',
         'agent_debug',
         'tool_call',
-        'retry_scheduled',
         'escalated',
       ].forEach((type) => source.addEventListener(type, forward as EventListener));
 

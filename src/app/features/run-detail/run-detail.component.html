@@ -9,14 +9,10 @@
       <div class="meta">
         <app-status-badge [status]="run.status"></app-status-badge>
         <span *ngIf="run.current_node">· {{ run.current_node }}</span>
-        <span *ngIf="run.retry_count">· retries {{ run.retry_count }}</span>
         <span>· started {{ run.started_at | date: 'medium' }}</span>
       </div>
-      <a *ngIf="run.repo_url" class="pr" [href]="run.repo_url" target="_blank" rel="noopener">
+      <a *ngIf="run.repo_url" class="repo-link" [href]="run.repo_url" target="_blank" rel="noopener">
         {{ run.repo_url }} ↗
-      </a>
-      <a *ngIf="run.pr_url" class="pr" [href]="run.pr_url" target="_blank" rel="noopener">
-        Pull request ↗
       </a>
       <p class="error" *ngIf="run.error">{{ run.error }}</p>
     </div>
@@ -34,11 +30,21 @@
     [visible]="needsApproval"
     [jiraKey]="run.jira_key"
     [riskLevel]="run.risk_level"
+    [riskReasons]="riskReasons"
     [plan]="planText"
     [busy]="actionBusy"
     (approve)="approve()"
     (cancel)="cancel()"
   ></app-approval-panel>
+
+  <section class="local-result" *ngIf="run.status === 'done' && workspacePath">
+    <mat-icon>folder</mat-icon>
+    <div>
+      <strong>Local implementation complete</strong>
+      <p>{{ workspacePath }}</p>
+      <span>{{ changedFileCount }} changed file{{ changedFileCount === 1 ? '' : 's' }} · no git or PR created</span>
+    </div>
+  </section>
 
   <section class="graph-section">
     <div class="section-head">

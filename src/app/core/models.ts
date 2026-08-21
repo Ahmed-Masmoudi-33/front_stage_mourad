@@ -48,9 +48,7 @@ export interface RunSummary {
   started_at: string;
   finished_at?: string | null;
   error?: string | null;
-  retry_count: number;
   risk_level?: string | null;
-  pr_url?: string | null;
 }
 
 export type ToolCallStatus = 'running' | 'completed' | 'error' | 'unknown' | string;

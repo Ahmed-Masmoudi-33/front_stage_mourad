@@ -65,6 +65,20 @@ export class RunDetailComponent implements OnInit, OnDestroy {
     return String(art['plan'] || '');
   }
 
+  get riskReasons(): string[] {
+    const reasons = this.run?.artifacts?.['risk_reasons'];
+    return Array.isArray(reasons) ? reasons.map(String) : [];
+  }
+
+  get workspacePath(): string {
+    return String(this.run?.artifacts?.['workspace_path'] || '');
+  }
+
+  get changedFileCount(): number {
+    const files = this.run?.artifacts?.['changed_files'];
+    return Array.isArray(files) ? files.length : 0;
+  }
+
   private load(runId: string): void {
     this.loading = true;
     this.api.getGraph().subscribe({
@@ -149,6 +163,19 @@ export class RunDetailComponent implements OnInit, OnDestroy {
         }
         break;
       }
+      case 'agent_debug': {
+        const debug = payload['debug'] as Record<string, unknown> | undefined;
+        if (debug) {
+          const current = this.run.artifacts['agent_debug'];
+          const entries = Array.isArray(current) ? current : [];
+          this.run.artifacts = {
+            ...this.run.artifacts,
+            agent_debug: [...entries, debug],
+            ...(debug['token_usage'] ? { token_usage: debug['token_usage'] } : {}),
+          };
+        }
+        break;
+      }
       case 'state_updated': {
         if (payload['node_states']) {
           this.run.node_states = {
@@ -174,9 +201,6 @@ export class RunDetailComponent implements OnInit, OnDestroy {
             this.run.status = 'running';
           }
         }
-        if (typeof payload['retry_count'] === 'number') {
-          this.run.retry_count = payload['retry_count'];
-        }
         if (payload['current_node']) {
           this.run.current_node = payload['current_node'] as string;
         }
@@ -189,19 +213,16 @@ export class RunDetailComponent implements OnInit, OnDestroy {
         if (payload['risk_level']) {
           this.run.risk_level = String(payload['risk_level']);
         }
-        if (payload['plan']) {
-          this.run.artifacts = { ...this.run.artifacts, plan: payload['plan'], risk_level: payload['risk_level'] };
-        }
+        this.run.artifacts = {
+          ...this.run.artifacts,
+          ...(payload['plan'] ? { plan: payload['plan'] } : {}),
+          ...(payload['risk_level'] ? { risk_level: payload['risk_level'] } : {}),
+          ...(payload['risk_reasons'] ? { risk_reasons: payload['risk_reasons'] } : {}),
+        };
         break;
       case 'approval_granted':
         this.run.status = 'running';
         this.patchNode('await_approval', 'success');
-        break;
-      case 'retry_scheduled':
-        if (typeof payload['retry_count'] === 'number') {
-          this.run.retry_count = payload['retry_count'];
-        }
-        this.patchNode('apply_retry', 'success');
         break;
       case 'escalated':
         this.run.status = 'escalated';
@@ -210,10 +231,6 @@ export class RunDetailComponent implements OnInit, OnDestroy {
       case 'run_completed':
         this.run.status = (payload['status'] as RunDetail['status']) || 'done';
         this.run.finished_at = event.timestamp;
-        if (payload['pr_url']) {
-          this.run.pr_url = String(payload['pr_url']);
-          this.run.artifacts = { ...this.run.artifacts, pr_url: payload['pr_url'] };
-        }
         this.settle(payload);
         break;
       case 'run_failed':

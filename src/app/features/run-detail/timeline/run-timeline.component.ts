@@ -36,6 +36,9 @@ export class RunTimelineComponent {
   }
 
   agentLabel(agent: string): string {
+    if (agent === 'human_gate') {
+      return 'Approval';
+    }
     return agent.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   }
 
