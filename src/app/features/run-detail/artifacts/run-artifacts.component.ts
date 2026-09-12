@@ -15,6 +15,9 @@ export class RunArtifactsComponent {
     plan: ['plan', 'risk_level', 'risk_reasons', 'files_to_change', 'prompt_for_next'],
     await_approval: ['plan', 'risk_level', 'risk_reasons'],
     implement: ['workspace_path', 'changed_files', 'implementation_summary'],
+    review: ['review_result', 'review_comments', 'retry_count'],
+    apply_retry: ['review_comments', 'retry_count', 'prompt_for_next'],
+    publish: ['branch_name', 'commit_sha', 'pr_url', 'pr_number'],
     escalate: ['status', 'escalation_reason', 'escalation_message'],
   };
 
@@ -34,6 +37,13 @@ export class RunArtifactsComponent {
           'workspace_path',
           'changed_files',
           'implementation_summary',
+          'review_result',
+          'review_comments',
+          'retry_count',
+          'branch_name',
+          'commit_sha',
+          'pr_url',
+          'pr_number',
           'escalation_reason',
           'escalation_message',
           'repo_url',
@@ -65,6 +75,13 @@ export class RunArtifactsComponent {
       workspace_path: 'Local workspace',
       changed_files: 'Changed files',
       implementation_summary: 'Implementation summary',
+      review_result: 'Local review result',
+      review_comments: 'Local review comments',
+      retry_count: 'Review retries',
+      branch_name: 'Published branch',
+      commit_sha: 'Published commit',
+      pr_url: 'Draft pull request',
+      pr_number: 'Pull request number',
       files_to_change: 'Planned files',
       risk_level: 'Risk level',
       risk_reasons: 'Risk reasons',
@@ -77,6 +94,6 @@ export class RunArtifactsComponent {
   }
 
   isUrl(key: string, value: string): boolean {
-    return key === 'repo_url' && /^https?:\/\//.test(value);
+    return (key === 'repo_url' || key === 'pr_url') && /^https?:\/\//.test(value);
   }
 }

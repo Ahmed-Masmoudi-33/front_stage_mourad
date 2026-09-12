@@ -13,8 +13,8 @@ export interface LaunchPipelineResult {
     <h2 mat-dialog-title>Launch pipeline</h2>
     <mat-dialog-content>
       <p class="hint">
-        Analyze the GitHub repository, then implement locally in
-        <code>workspaces/&lt;JIRA_KEY&gt;</code>.
+        Clone and implement in <code>workspaces/&lt;JIRA_KEY&gt;</code>, review
+        locally, then publish a draft pull request.
       </p>
       <form [formGroup]="form">
         <mat-form-field appearance="outline" class="full">
@@ -23,14 +23,14 @@ export interface LaunchPipelineResult {
           <mat-error *ngIf="form.controls.jiraKey.invalid">Required (e.g. PROJ-123)</mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="full">
-          <mat-label>GitHub repository (read-only)</mat-label>
+          <mat-label>GitHub repository</mat-label>
           <input
             matInput
             formControlName="repoUrl"
             placeholder="https://github.com/owner/repo"
             (keyup.enter)="submit()"
           />
-          <mat-hint>Used only by analyze and plan; implement never writes to GitHub</mat-hint>
+          <mat-hint>Analyze/plan read it; publish pushes only locally reviewed changes</mat-hint>
           <mat-error *ngIf="form.controls.repoUrl.invalid">Required GitHub repository link</mat-error>
         </mat-form-field>
       </form>

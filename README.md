@@ -1,6 +1,7 @@
 # Jira Pipeline UI
 
-Angular 16 + Material frontend for the Jira → analysis → plan → approval → local implementation pipeline.
+Angular 16 + Material frontend for the Jira → analysis → plan → approval → local
+implementation → local review/retry → draft PR pipeline.
 
 Requires Node **18.20.8** and npm **10.8.2** (or compatible).
 
@@ -19,7 +20,7 @@ npm install
 cd "/home/ahmed/study/stage_mobelite_jira_project/no_git_usage/stage_mourad"
 source .venv/bin/activate
 export PIPELINE_API_MOCK=true   # optional; fake timed runs for UI demo
-uvicorn jira_pipeline.api.app:app --reload --host 127.0.0.1 --port 8000
+python scripts/serve.py
 ```
 
 2. Start this app (proxies `/api` → `http://127.0.0.1:8000`):
@@ -35,7 +36,7 @@ Open http://localhost:4200
 - **Runs list** — history with status filters
 - **Launch pipeline** — start a run by Jira key
 - **Live workflow graph** — node states update over SSE
-- **Timeline & artifacts** — agent outputs, plan, local workspace, and changed files
+- **Timeline & artifacts** — local review findings, retry count, published branch, and draft PR
 - **Approval gate** — approve or cancel when the pipeline pauses
 
 ## Scripts

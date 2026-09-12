@@ -2,7 +2,7 @@
   <header class="page-header">
     <div>
       <h1>Pipeline runs</h1>
-      <p>Analyze and plan from Jira/GitHub, approve risky work, then implement locally.</p>
+      <p>Implement locally, review with bounded retries, then publish a draft pull request.</p>
     </div>
     <button mat-flat-button color="primary" (click)="openLaunch()" [disabled]="launching">
       <mat-icon>play_arrow</mat-icon>
@@ -45,14 +45,18 @@
       <th mat-header-cell *matHeaderCellDef>Node</th>
       <td mat-cell *matCellDef="let row">{{ row.current_node || '—' }}</td>
     </ng-container>
+    <ng-container matColumnDef="retry_count">
+      <th mat-header-cell *matHeaderCellDef>Retries</th>
+      <td mat-cell *matCellDef="let row">{{ row.retry_count }}</td>
+    </ng-container>
     <ng-container matColumnDef="started_at">
       <th mat-header-cell *matHeaderCellDef>Started</th>
       <td mat-cell *matCellDef="let row">{{ row.started_at | date: 'medium' }}</td>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="['jira_key', 'status', 'current_node', 'started_at']"></tr>
+    <tr mat-header-row *matHeaderRowDef="['jira_key', 'status', 'current_node', 'retry_count', 'started_at']"></tr>
     <tr
       mat-row
-      *matRowDef="let row; columns: ['jira_key', 'status', 'current_node', 'started_at']"
+      *matRowDef="let row; columns: ['jira_key', 'status', 'current_node', 'retry_count', 'started_at']"
       (click)="openRun(row)"
       class="clickable"
     ></tr>

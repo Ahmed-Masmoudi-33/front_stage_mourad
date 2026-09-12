@@ -14,14 +14,14 @@ export class PipelineGraphComponent {
   @Input() selectedNode: string | null = null;
   @Output() nodeSelect = new EventEmitter<string>();
 
-  /** Main spine for layout (exclude escalation into a second row). */
+  /** Main spine for layout (exclude conditional retry/escalation branches). */
   get mainNodes(): GraphNode[] {
-    const side = new Set(['escalate']);
+    const side = new Set(['apply_retry', 'escalate']);
     return this.nodes.filter((n) => !side.has(n.id));
   }
 
   get sideNodes(): GraphNode[] {
-    const side = new Set(['escalate']);
+    const side = new Set(['apply_retry', 'escalate']);
     return this.nodes.filter((n) => side.has(n.id));
   }
 

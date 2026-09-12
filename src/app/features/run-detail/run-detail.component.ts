@@ -79,6 +79,10 @@ export class RunDetailComponent implements OnInit, OnDestroy {
     return Array.isArray(files) ? files.length : 0;
   }
 
+  get prUrl(): string {
+    return String(this.run?.pr_url || this.run?.artifacts?.['pr_url'] || '');
+  }
+
   private load(runId: string): void {
     this.loading = true;
     this.api.getGraph().subscribe({

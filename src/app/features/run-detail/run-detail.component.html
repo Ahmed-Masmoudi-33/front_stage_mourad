@@ -14,6 +14,9 @@
       <a *ngIf="run.repo_url" class="repo-link" [href]="run.repo_url" target="_blank" rel="noopener">
         {{ run.repo_url }} ↗
       </a>
+      <a *ngIf="prUrl" class="repo-link" [href]="prUrl" target="_blank" rel="noopener">
+        Draft pull request ↗
+      </a>
       <p class="error" *ngIf="run.error">{{ run.error }}</p>
     </div>
     <div class="actions">
@@ -38,11 +41,15 @@
   ></app-approval-panel>
 
   <section class="local-result" *ngIf="run.status === 'done' && workspacePath">
-    <mat-icon>folder</mat-icon>
+    <mat-icon>merge</mat-icon>
     <div>
-      <strong>Local implementation complete</strong>
+      <strong>Reviewed implementation published</strong>
       <p>{{ workspacePath }}</p>
-      <span>{{ changedFileCount }} changed file{{ changedFileCount === 1 ? '' : 's' }} · no git or PR created</span>
+      <span>
+        {{ changedFileCount }} changed file{{ changedFileCount === 1 ? '' : 's' }}
+        · {{ run.retry_count }} review retr{{ run.retry_count === 1 ? 'y' : 'ies' }}
+        · draft PR created
+      </span>
     </div>
   </section>
 
